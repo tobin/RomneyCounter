@@ -32,8 +32,10 @@ v = datevec(t2);
 c = v(:,4) + (v(:,5) + v(:,6)/60)/60;     % time of day in fractional hours
 c = 2 + sin(c * (2*pi)/24 - pi/2 - pi/6); % offset so that it's not too dark
 
-lims = [min(y) 12050500];
-p = pcolor([t2; t2], [lims(1)*ones(size(t2)) ; lims(2)*ones(size(t2))], [c' ; c']);
+tick_interval = 10000;
+lims = [floor(min(y)/tick_interval) ceil(max(y)/tick_interval)]*tick_interval;
+
+p = pcolor([t2; t2], [0.9995*lims(1)*ones(size(t2)) ; 1.0005*lims(2)*ones(size(t2))], [c' ; c']);
 caxis([0 2]); 
 colormap(gray);
 set(p,'facecolor','flat', 'linestyle', 'none');        
@@ -54,18 +56,12 @@ ylabel('Facebook "likes"');
 title('The de-friending of Mitt Romney');
 axis tight
 
-% tick_interval = 5000;
-% ticks =  tick_interval*(ceil(lims(1)/tick_interval):1:floor(lims(2)/tick_interval));
-% set(gca,'ytick', ticks);
 
-% Instead of setting the tick marks automatically, I do it by hand as a
-% quick-and-dirty way to put in spaces as thousands separators:
-
-set(gca, 'ytick', [12020000, 12025000, 12030000, 12035000, 12040000, 12045000 12050000], ...
-    'yticklabel', {'12 020 000', '12 025 000', '12 030 000', '12 035 000', '12 040 000', '12 045 000', '12 050 000'});
-ylim([min(y) 12050500]);  
+ticks=lims(1):tick_interval:lims(2);
+set(gca, 'ytick', ticks, ...
+  'yticklabel', cellfun(@(x) sprintf('%0.0f', x), num2cell(ticks), 'UniformOutput', false));
 set(gca, 'FontSize', 14)
 set(findall(gca, 'Type','text'), 'FontSize', 16)
 
-print -dpdf romneycount.pdf
-print -dpng romneycount.png
+%print -dpdf romneycount.pdf
+%print -dpng romneycount.png
