@@ -49,12 +49,15 @@ plot(t3, interp1(t, y, t3, 'pchip'), 'linewidth', 10, 'color', [1 1 1]);
 plot(t3, interp1(t, y, t3, 'pchip'), 'linewidth', 5, 'color', [0.9 0 0]);
 hold off
 
-set(gca,'layer','top');   
-datetick('x', 'mm/dd HH:MM');
-xlabel('Eastern Standard Time');
+set(gca,'layer','top');
+% The 'datenum' time values are in fractional days with integer values
+% corresponding to midnight.  We'll put the ticks at midnight.
+set(gca,'xtick', ceil(min(t)):1:floor(max(t)));  
+datetick('x', 'mm/dd');
+xlabel('date');
 ylabel('Facebook "likes"');
 title('The de-friending of Mitt Romney');
-axis tight
+xlim([min(t) max(t)]);
 
 
 ticks=lims(1):tick_interval:lims(2);
