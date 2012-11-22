@@ -58,8 +58,9 @@ axis tight
 
 
 ticks=lims(1):tick_interval:lims(2);
+nf = java.text.DecimalFormat;
 set(gca, 'ytick', ticks, ...
-  'yticklabel', cellfun(@(x) sprintf('%0.0f', x), num2cell(ticks), 'UniformOutput', false));
+  'yticklabel', cellfun(@(x) char(nf.format(x)), num2cell(ticks), 'UniformOutput', false));
 set(gca, 'FontSize', 14)
 set(findall(gca, 'Type','text'), 'FontSize', 16)
 
