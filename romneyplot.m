@@ -67,5 +67,5 @@ set(gca, 'ytick', ticks, ...
 set(gca, 'FontSize', 14)
 set(findall(gca, 'Type','text'), 'FontSize', 16)
 
-%print -dpdf romneycount.pdf
-%print -dpng romneycount.png
+print -dpdf romneycount.pdf
+print -dpng romneycount.png
